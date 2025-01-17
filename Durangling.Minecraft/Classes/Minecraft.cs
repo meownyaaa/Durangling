@@ -1,30 +1,25 @@
 using System.Runtime.InteropServices;
-using Durangling.DataTypes;
-using Durangling.Interop;
+using Durangling.Minecraft.DataTypes;
+using Durangling.Minecraft.Interop;
 
-namespace Durangling.Classes;
+namespace Durangling.Minecraft.Classes;
 
-public unsafe class Minecraft(Minecraft.Native* handle) : INativeWrapper
+public unsafe class Minecraft(Minecraft.Native* handle) : NativeClassWrapper<Minecraft.Native>(handle)
 {
-    public readonly Native* Handle = handle;
-    public bool IsValid => Handle != null;
-
     public static Minecraft GetInstance()
     {
-        Logger.Write(Logger.Level.Debug, "Minecraft.GetInstance");
         return new Minecraft(Methods.GetInstance());
     }
 
     public static bool InMiniGame(EMiniGameId id, bool inMinigame)
     {
-        Logger.Write(Logger.Level.Debug, "Minecraft.InMiniGame");
         return Methods.InMiniGame(id, (byte)(inMinigame ? 1 : 0)) != 0;
     }
     
     [StructLayout(LayoutKind.Explicit, Pack = 0x1)]
     public struct Native
     {
-        [FieldOffset(0)] public nint* VTable;
+        [FieldOffset(0x0)] public nint* VFTable;
     }
 
     public static class Methods

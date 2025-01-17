@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Durangling", "Durangling\Du
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Detours", "Detours\vc\Detours.vcxproj", "{37489709-8054-4903-9C49-A79846049FC9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Durangling.Minecraft", "Durangling.Minecraft\Durangling.Minecraft.csproj", "{585D2C0A-F0CB-4534-B434-9390FAB8CC23}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{37489709-8054-4903-9C49-A79846049FC9}.Release|Any CPU.Build.0 = DebugMDd|Win32
 		{37489709-8054-4903-9C49-A79846049FC9}.Debug|Any CPU.ActiveCfg = ReleaseMD|x64
 		{37489709-8054-4903-9C49-A79846049FC9}.Debug|Any CPU.Build.0 = ReleaseMD|x64
+		{585D2C0A-F0CB-4534-B434-9390FAB8CC23}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{585D2C0A-F0CB-4534-B434-9390FAB8CC23}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{585D2C0A-F0CB-4534-B434-9390FAB8CC23}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{585D2C0A-F0CB-4534-B434-9390FAB8CC23}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

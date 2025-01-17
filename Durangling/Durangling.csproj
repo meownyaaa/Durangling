@@ -15,4 +15,8 @@
         <LinkerArg Include="/LIBPATH:..\\Detours\\lib.X64"/>
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Durangling.Minecraft\Durangling.Minecraft.csproj" />
+    </ItemGroup>
+
 </Project>

@@ -7,19 +7,19 @@ public static unsafe class Mod
     public static void AttachHooks()
     {
         Logger.Write(Logger.Level.Debug, "Attaching hooks...");
-        MinecraftHooks.Attach();
+        BlockHooks.Attach();
         Logger.Write(Logger.Level.Debug, "Yeah!");
     }
 
     public static void DetachHooks()
     {
         Logger.Write(Logger.Level.Debug, "Detaching hooks...");
-        MinecraftHooks.Detach();
+        BlockHooks.Detach();
         Logger.Write(Logger.Level.Debug, "Yeah!");
     }
     
     public static void OnDurangoInvoke(nint hModule, uint ul_reason_for_call, void* lpReserved)
     {
-        Logger.Write(Logger.Level.Debug, "Invoked from WinDurango");
+        Logger.Write(Logger.Level.Debug, "Invoked by WinDurango");
     }
 }

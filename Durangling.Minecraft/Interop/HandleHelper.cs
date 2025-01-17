@@ -1,6 +1,6 @@
 using System.Diagnostics;
 
-namespace Durangling.Interop;
+namespace Durangling.Minecraft.Interop;
 
 public static unsafe class HandleHelper
 {

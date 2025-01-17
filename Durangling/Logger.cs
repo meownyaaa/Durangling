@@ -16,6 +16,11 @@ public static class Logger
 
     public static void Write(Level level, string message)
     {
+        if (level == Level.Debug)
+        {
+            Debug.WriteLine(message);
+        }
+        
         Console.BackgroundColor = level switch
         {
             Level.Debug => ConsoleColor.DarkYellow,
