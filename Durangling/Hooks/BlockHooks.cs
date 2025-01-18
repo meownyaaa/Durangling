@@ -1,4 +1,3 @@
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Durangling.Interop.PInvoke;
 using Durangling.Minecraft.Classes;
@@ -7,14 +6,14 @@ namespace Durangling.Hooks;
 
 public static unsafe class BlockHooks
 {
-    private static delegate* unmanaged<nint, nint, nint, float> TrueGetDestroySpeed = Block.Methods.GetDestroySpeed;
+    private static delegate* unmanaged<void*, void*, void*, float> TrueGetDestroySpeed = Block.Methods.GetDestroySpeed;
 
     public static void Attach()
     {
         void* i;
 
         i = TrueGetDestroySpeed;
-        Detour.Attach(ref i, (delegate* unmanaged<nint, nint, nint, float>)&GetDestroySpeedHook);
+        Detour.Attach(ref i, (delegate* unmanaged<void*, void*, void*, float>)&GetDestroySpeedHook);
     }
 
     public static void Detach()
@@ -22,11 +21,11 @@ public static unsafe class BlockHooks
         void* i;
 
         i = TrueGetDestroySpeed;
-        Detour.Detach(ref i, (delegate* unmanaged<nint, nint, nint, float>)&GetDestroySpeedHook);
+        Detour.Detach(ref i, (delegate* unmanaged<void*, void*, void*, float>)&GetDestroySpeedHook);
     }
 
     [UnmanagedCallersOnly]
-    private static float GetDestroySpeedHook(nint state, nint level, nint pos)
+    private static float GetDestroySpeedHook(void* state, void* level, void* pos)
     {
         return 0.0f;
     }

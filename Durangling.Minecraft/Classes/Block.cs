@@ -7,10 +7,10 @@ public unsafe class Block(Block.Native* handle) : NativeClassWrapper<Block.Nativ
 {
     public bool DebugArtToolsOn()
     {
-        return Methods.DebugArtToolsOn((nint)Handle) != 0;
+        return Methods.DebugArtToolsOn(Handle) != 0;
     }
 
-    public static float GetDestroySpeed(nint state, nint level, nint pos)
+    public static float GetDestroySpeed(void* state, void* level, void* pos)
     {
         return Methods.GetDestroySpeed(state, level, pos);
     }
@@ -23,13 +23,13 @@ public unsafe class Block(Block.Native* handle) : NativeClassWrapper<Block.Nativ
 
     public static class Methods
     {
-        public static readonly delegate* unmanaged[Thiscall]<nint, byte> DebugArtToolsOn;
-        public static readonly delegate* unmanaged<nint, nint, nint, float> GetDestroySpeed;
+        public static readonly delegate* unmanaged[Thiscall]<Native*, byte> DebugArtToolsOn;
+        public static readonly delegate* unmanaged<void*, void*, void*, float> GetDestroySpeed;
 
         static Methods()
         {
-            DebugArtToolsOn = (delegate* unmanaged[Thiscall]<nint, byte>)HandleHelper.GetMainModuleHandle(0x140051660);
-            GetDestroySpeed = (delegate* unmanaged<IntPtr, IntPtr, IntPtr, float>)HandleHelper.GetMainModuleHandle(0x1401771b0);
+            DebugArtToolsOn =(delegate* unmanaged[Thiscall]<Native*, byte>)HandleHelper.GetMainModuleHandle(0x140051660);
+            GetDestroySpeed = (delegate* unmanaged<void*, void*, void*, float>)HandleHelper.GetMainModuleHandle(0x1401771b0);
         }
     }
 
