@@ -1,6 +1,6 @@
 namespace Minecraft.Client.MiniGames;
 
-public enum EMiniGameId : uint
+public enum MiniGameId : uint
 {
     Battle = 1,
     Tumble = 2,

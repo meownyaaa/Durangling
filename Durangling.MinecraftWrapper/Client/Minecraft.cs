@@ -6,31 +6,28 @@ namespace Minecraft.Client;
 
 public unsafe class Minecraft(Minecraft.Native* handle) : NativeClassWrapper<Minecraft.Native>(handle)
 {
-    public static Minecraft GetInstance()
+    public static Minecraft Instance => new(NativeMethods.GetInstance());
+
+    public static bool InMiniGame(MiniGameId id, bool inMiniGame)
     {
-        return new Minecraft(Methods.GetInstance());
+        return NativeMethods.InMiniGame(id, (byte)(inMiniGame ? 1 : 0)) != 0;
     }
 
-    public static bool InMiniGame(EMiniGameId id, bool inMinigame)
-    {
-        return Methods.InMiniGame(id, (byte)(inMinigame ? 1 : 0)) != 0;
-    }
-    
-    [StructLayout(LayoutKind.Explicit, Pack = 0x1)]
+    [StructLayout(LayoutKind.Explicit, Pack = 0x1, Size = 0x10)]
     public struct Native
     {
-        [FieldOffset(0x0)] public nint* VFTable;
+        [FieldOffset(0x0)] public fixed byte _Fill[0x10];
     }
 
-    public static class Methods
+    public static class NativeMethods
     {
         public static readonly delegate* unmanaged<Native*> GetInstance;
-        public static readonly delegate* unmanaged<EMiniGameId, byte, byte> InMiniGame;
+        public static readonly delegate* unmanaged<MiniGameId, byte, byte> InMiniGame;
         
-        static Methods()
+        static NativeMethods()
         {
             GetInstance = (delegate* unmanaged<Native*>)HandleHelper.GetMainModuleHandle(0x1408727a0);
-            InMiniGame = (delegate* unmanaged<EMiniGameId, byte, byte>)HandleHelper.GetMainModuleHandle(0x140873320);
+            InMiniGame = (delegate* unmanaged<MiniGameId, byte, byte>)HandleHelper.GetMainModuleHandle(0x140873320);
         }
     }
 }

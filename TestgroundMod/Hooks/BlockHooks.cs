@@ -1,31 +1,31 @@
 using System.Runtime.InteropServices;
 using Durangling;
-using Minecraft.World.Levels.Blocks;
+using Minecraft.World.Blocks;
 
 namespace TestgroundMod.Hooks;
 
 public static unsafe class BlockHooks
 {
-    private static delegate* unmanaged<void*, void*, void*, float> TrueGetDestroySpeed = Block.Methods.GetDestroySpeed;
+    private static delegate* unmanaged<void*, void*, void*, float> TrueGetMiningSpeed = Block.NativeMethods.GetMiningSpeed;
 
     public static void Attach()
     {
         void* i;
 
-        i = TrueGetDestroySpeed;
-        Detour.Attach(ref i, (delegate* unmanaged<void*, void*, void*, float>)&GetDestroySpeedHook);
+        i = TrueGetMiningSpeed;
+        Detour.Attach(ref i, (delegate* unmanaged<void*, void*, void*, float>)&GetMiningSpeedHook);
     }
 
     public static void Detach()
     {
         void* i;
 
-        i = TrueGetDestroySpeed;
-        Detour.Detach(ref i, (delegate* unmanaged<void*, void*, void*, float>)&GetDestroySpeedHook);
+        i = TrueGetMiningSpeed;
+        Detour.Detach(ref i, (delegate* unmanaged<void*, void*, void*, float>)&GetMiningSpeedHook);
     }
 
     [UnmanagedCallersOnly]
-    private static float GetDestroySpeedHook(void* state, void* level, void* pos)
+    private static float GetMiningSpeedHook(void* state, void* level, void* pos)
     {
         return 0.0f;
     }

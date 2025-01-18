@@ -8,8 +8,4 @@
         <RootNamespace>Minecraft</RootNamespace>
     </PropertyGroup>
 
-    <ItemGroup>
-      <Folder Include="World\Levels\" />
-    </ItemGroup>
-
 </Project>
