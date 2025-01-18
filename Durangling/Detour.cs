@@ -31,9 +31,9 @@ public static unsafe class Detour
     
     [DllImport(LibName, EntryPoint = "DetourAttach")]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvStdcall)])]
-    public static extern long Attach(ref void* ppPointer, void* pDetour);
+    public static extern long Attach(in void* ppPointer, void* pDetour);
     
     [DllImport(LibName, EntryPoint = "DetourDetach")]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvStdcall)])]
-    public static extern long Detach(ref void* ppPointer, void* pDetour);
+    public static extern long Detach(in void* ppPointer, void* pDetour);
 }

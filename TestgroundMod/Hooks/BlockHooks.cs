@@ -4,24 +4,20 @@ using Minecraft.World.Blocks;
 
 namespace TestgroundMod.Hooks;
 
+using unsafe GetMiningSpeed = delegate* unmanaged<void*, void*, void*, float>;
+
 public static unsafe class BlockHooks
 {
-    private static delegate* unmanaged<void*, void*, void*, float> TrueGetMiningSpeed = Block.NativeMethods.GetMiningSpeed;
+    private static GetMiningSpeed TrueGetMiningSpeed = Block.NativeMethods.GetMiningSpeed;
 
     public static void Attach()
     {
-        void* i;
-
-        i = TrueGetMiningSpeed;
-        Detour.Attach(ref i, (delegate* unmanaged<void*, void*, void*, float>)&GetMiningSpeedHook);
+        Detour.Attach(TrueGetMiningSpeed, (GetMiningSpeed)(&GetMiningSpeedHook));
     }
 
     public static void Detach()
     {
-        void* i;
-
-        i = TrueGetMiningSpeed;
-        Detour.Detach(ref i, (delegate* unmanaged<void*, void*, void*, float>)&GetMiningSpeedHook);
+        Detour.Detach(TrueGetMiningSpeed, (GetMiningSpeed)(&GetMiningSpeedHook));
     }
 
     [UnmanagedCallersOnly]
