@@ -5,23 +5,22 @@ using Durangling.Utilities;
 
 namespace Durangling;
 
-[SupportedOSPlatform("windows10.0")]
 public static unsafe class DuranglingEntrypoint
 {
     private const int DLL_PROCESS_ATTACH = 1;
     private const int DLL_PROCESS_DETACH = 0;
     
-    public static bool Main(ReadOnlySpan<ModBase> mods, nint hinstDLL, uint fdwReason, void* lpvReserved)
+    public static bool Initialize(ReadOnlySpan<ModBase> mods, uint reason)
     {
-        if (fdwReason is not (DLL_PROCESS_ATTACH or DLL_PROCESS_DETACH))
+        if (reason is not (DLL_PROCESS_ATTACH or DLL_PROCESS_DETACH))
         {
             return true;
         }
         
         foreach (ModBase mod in mods)
         {
-            Logger.Write(Logger.Level.Debug, $"{(fdwReason == DLL_PROCESS_ATTACH ? "Loading" : "Unloading")} {mod.Details.Name} ({mod.Details.Version})");
-            switch (fdwReason)
+            Logger.Write(Logger.Level.Debug, $"{(reason == DLL_PROCESS_ATTACH ? "Loading" : "Unloading")} {mod.Details.Name} ({mod.Details.Version})");
+            switch (reason)
             {
                 case DLL_PROCESS_ATTACH:
                     mod.Initialize();

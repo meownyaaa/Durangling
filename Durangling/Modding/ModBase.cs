@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Windows.Win32;
 
 namespace Durangling.Modding;
@@ -11,6 +12,7 @@ public abstract class ModBase
         Details = details;
     }
 
+    [SuppressMessage("Interoperability", "CA1416:Validate platform compatibility")]
     public virtual void Initialize()
     {
         Detour.RestoreAfterWith();
@@ -20,6 +22,7 @@ public abstract class ModBase
         Detour.TransactionCommit();
     }
 
+    [SuppressMessage("Interoperability", "CA1416:Validate platform compatibility")]
     public virtual void Dispose()
     {
         Detour.TransactionBegin();
