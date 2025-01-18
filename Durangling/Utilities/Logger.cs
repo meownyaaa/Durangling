@@ -1,7 +1,6 @@
 using System.Diagnostics;
-using System.Reflection;
 
-namespace Durangling;
+namespace Durangling.Utilities;
 
 public static class Logger
 {

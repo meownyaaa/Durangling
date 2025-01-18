@@ -10,10 +10,13 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Microsoft.Windows.CsWin32" Version="0.3.162">
-        <PrivateAssets>all</PrivateAssets>
-        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      </PackageReference>
+        <DirectPInvoke Include="detours"/>
+        <NativeLibrary Include="detours.lib"/>
+        <LinkerArg Include="/LIBPATH:..\\Detours\\lib.X64"/>
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Durangling.MinecraftWrapper\Durangling.MinecraftWrapper.csproj" />
+      <ProjectReference Include="..\Durangling\Durangling.csproj" />
+    </ItemGroup>
 </Project>

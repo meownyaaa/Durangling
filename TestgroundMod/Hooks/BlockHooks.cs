@@ -1,9 +1,8 @@
 using System.Runtime.InteropServices;
-using Durangling.Interop.PInvoke;
-using Minecraft;
+using Durangling;
 using Minecraft.World.Levels.Blocks;
 
-namespace Durangling.Hooks;
+namespace TestgroundMod.Hooks;
 
 public static unsafe class BlockHooks
 {
