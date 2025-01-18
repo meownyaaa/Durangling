@@ -5,9 +5,9 @@ namespace Minecraft.World.Blocks;
 
 public unsafe class Block(Block.Native* handle) : NativeClassWrapper<Block.Native>(handle)
 {
-    public bool DisplayDebugInformation()
+    public bool IsDebugInformationVisible()
     {
-        return NativeMethods.DisplayDebugInformation(Handle) != 0;
+        return NativeMethods.IsDebugInformationVisible(Handle) != 0;
     }
 
     public static float GetMiningSpeed(void* state, void* level, void* pos)
@@ -25,13 +25,13 @@ public unsafe class Block(Block.Native* handle) : NativeClassWrapper<Block.Nativ
 
     public static class NativeMethods
     {
-        public static readonly delegate* unmanaged[Thiscall]<Native*, byte> DisplayDebugInformation;
+        public static readonly delegate* unmanaged[Thiscall]<Native*, byte> IsDebugInformationVisible;
         public static readonly delegate* unmanaged<void*, void*, void*, float> GetMiningSpeed;
 
         static NativeMethods()
         {
-            DisplayDebugInformation =(delegate* unmanaged[Thiscall]<Native*, byte>)HandleHelper.GetMainModuleHandle(0x140051660);
-            GetMiningSpeed = (delegate* unmanaged<void*, void*, void*, float>)HandleHelper.GetMainModuleHandle(0x1401771b0);
+            IsDebugInformationVisible =(delegate* unmanaged[Thiscall]<Native*, byte>)HandleHelper.GetMainModuleHandle(Addresses.Block.IsDebugInformationVisible);
+            GetMiningSpeed = (delegate* unmanaged<void*, void*, void*, float>)HandleHelper.GetMainModuleHandle(Addresses.Block.GetMiningSpeed);
         }
     }
 

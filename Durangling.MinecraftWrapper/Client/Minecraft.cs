@@ -26,8 +26,8 @@ public unsafe class Minecraft(Minecraft.Native* handle) : NativeClassWrapper<Min
         
         static NativeMethods()
         {
-            GetInstance = (delegate* unmanaged<Native*>)HandleHelper.GetMainModuleHandle(0x1408727a0);
-            InMiniGame = (delegate* unmanaged<MiniGameId, byte, byte>)HandleHelper.GetMainModuleHandle(0x140873320);
+            GetInstance = (delegate* unmanaged<Native*>)HandleHelper.GetMainModuleHandle(Addresses.Minecraft.GetInstance);
+            InMiniGame = (delegate* unmanaged<MiniGameId, byte, byte>)HandleHelper.GetMainModuleHandle(Addresses.Minecraft.InMiniGame);
         }
     }
 }

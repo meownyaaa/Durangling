@@ -27,7 +27,7 @@ public unsafe class MinecraftApp(MinecraftApp.Native* handle) : NativeClassWrapp
         {
             HandleDlc =
                 (delegate* unmanaged[Thiscall]<Native*, DlcPack.Native*, void>)HandleHelper.GetMainModuleHandle(
-                    0x140790e90);
+                    Addresses.MinecraftApp.HandleDlc);
         }
     }
 }
