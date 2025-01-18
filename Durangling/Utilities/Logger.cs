@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 
 namespace Durangling.Utilities;
 
@@ -13,14 +14,13 @@ public static class Logger
         Fatal
     }
 
-    public static void Write(Level level, string message)
+    public static void Write(Level level, string message, [CallerLineNumber] int lineNumber = 0)
     {
-        if (level == Level.Debug)
-        {
-            Debug.WriteLine(message);
-        }
+        string formatted = $"{DateTime.Now:T} [{GetCallerName()}:{lineNumber}]: {message}";
         
-        Console.BackgroundColor = level switch
+        Debug.WriteLine(formatted);
+        
+        Console.ForegroundColor = level switch
         {
             Level.Debug => ConsoleColor.DarkYellow,
             Level.Info => ConsoleColor.Blue,
@@ -29,8 +29,25 @@ public static class Logger
             Level.Fatal => ConsoleColor.DarkRed,
             _ => ConsoleColor.Green
         };
-        Console.ForegroundColor = ConsoleColor.White;
-        Console.WriteLine(message);
+        Console.WriteLine(formatted);
         Console.ResetColor();
+    }
+
+    private static string GetCallerName()
+    {
+        StackTrace st = new();
+        StackFrame? sf = st.GetFrame(2); // 0 - GetCurrentMethod; 1 - Write; 2 - actual method
+        if (sf == null)
+        {
+            return "Unknown";
+        }
+        
+        DiagnosticMethodInfo? dmi = DiagnosticMethodInfo.Create(sf);
+        if (dmi == null)
+        {
+            return "Unknown";
+        }
+
+        return $"{dmi.DeclaringTypeName}.{dmi.Name}";
     }
 }
