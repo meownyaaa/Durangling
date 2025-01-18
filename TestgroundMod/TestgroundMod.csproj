@@ -11,8 +11,8 @@
 
     <ItemGroup>
         <DirectPInvoke Include="detours"/>
-        <NativeLibrary Include="detours.lib"/>
-        <LinkerArg Include="/LIBPATH:..\\Detours\\lib.X64"/>
+        <NativeLibrary Include="..\Detours\lib.X64\detours.lib" Condition="$(RuntimeIdentifier.StartsWith('win'))"/>
+        <NativeLibrary Include="..\Detours\lib.X64\detours.a" Condition="!$(RuntimeIdentifier.StartsWith('win'))"/>
     </ItemGroup>
 
     <ItemGroup>
