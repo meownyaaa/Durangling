@@ -1,4 +1,4 @@
-namespace Durangling.Minecraft.Interop;
+namespace Minecraft.Interop;
 
 public abstract unsafe class NativeClassWrapper<T>(T* handle) : INativeWrapper where T : unmanaged
 {

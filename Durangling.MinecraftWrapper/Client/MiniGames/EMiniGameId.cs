@@ -1,4 +1,4 @@
-namespace Durangling.Minecraft.DataTypes;
+namespace Minecraft.Client.MiniGames;
 
 public enum EMiniGameId : uint
 {

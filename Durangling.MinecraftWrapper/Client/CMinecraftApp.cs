@@ -1,7 +1,8 @@
 using System.Runtime.InteropServices;
-using Durangling.Minecraft.Interop;
+using Minecraft.Client.DLC;
+using Minecraft.Interop;
 
-namespace Durangling.Minecraft.Classes;
+namespace Minecraft.Client;
 
 public unsafe class CMinecraftApp(CMinecraftApp.Native* handle) : NativeClassWrapper<CMinecraftApp.Native>(handle)
 {

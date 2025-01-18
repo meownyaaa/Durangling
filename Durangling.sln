@@ -4,7 +4,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Durangling", "Durangling\Du
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Detours", "Detours\vc\Detours.vcxproj", "{37489709-8054-4903-9C49-A79846049FC9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Durangling.Minecraft", "Durangling.Minecraft\Durangling.Minecraft.csproj", "{585D2C0A-F0CB-4534-B434-9390FAB8CC23}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Durangling.MinecraftWrapper", "Durangling.MinecraftWrapper\Durangling.MinecraftWrapper.csproj", "{585D2C0A-F0CB-4534-B434-9390FAB8CC23}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

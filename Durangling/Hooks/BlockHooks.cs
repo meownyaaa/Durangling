@@ -1,6 +1,7 @@
 using System.Runtime.InteropServices;
 using Durangling.Interop.PInvoke;
-using Durangling.Minecraft.Classes;
+using Minecraft;
+using Minecraft.World.Levels.Blocks;
 
 namespace Durangling.Hooks;
 

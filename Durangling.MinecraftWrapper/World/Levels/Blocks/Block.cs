@@ -1,7 +1,7 @@
 using System.Runtime.InteropServices;
-using Durangling.Minecraft.Interop;
+using Minecraft.Interop;
 
-namespace Durangling.Minecraft.Classes;
+namespace Minecraft.World.Levels.Blocks;
 
 public unsafe class Block(Block.Native* handle) : NativeClassWrapper<Block.Native>(handle)
 {

@@ -1,7 +1,7 @@
 using System.Runtime.InteropServices;
-using Durangling.Minecraft.Interop;
+using Minecraft.Interop;
 
-namespace Durangling.Minecraft.Classes;
+namespace Minecraft.Client.DLC;
 
 public unsafe class DLCPack(DLCPack.Native* handle) : NativeClassWrapper<DLCPack.Native>(handle)
 {

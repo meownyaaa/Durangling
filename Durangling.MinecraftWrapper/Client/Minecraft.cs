@@ -1,8 +1,8 @@
 using System.Runtime.InteropServices;
-using Durangling.Minecraft.DataTypes;
-using Durangling.Minecraft.Interop;
+using Minecraft.Client.MiniGames;
+using Minecraft.Interop;
 
-namespace Durangling.Minecraft.Classes;
+namespace Minecraft.Client;
 
 public unsafe class Minecraft(Minecraft.Native* handle) : NativeClassWrapper<Minecraft.Native>(handle)
 {

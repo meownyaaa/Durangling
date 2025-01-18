@@ -1,4 +1,4 @@
-namespace Durangling.Minecraft.Interop;
+namespace Minecraft.Interop;
 
 public interface INativeWrapper
 {

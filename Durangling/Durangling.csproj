@@ -16,7 +16,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Durangling.Minecraft\Durangling.Minecraft.csproj" />
+      <ProjectReference Include="..\Durangling.MinecraftWrapper\Durangling.MinecraftWrapper.csproj" />
     </ItemGroup>
 
 </Project>
