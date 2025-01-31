@@ -14,10 +14,12 @@ public class TestgroundMod : Mod
     protected override void AttachHooks()
     {
         BlockHooks.Attach();
+        MinecraftHooks.Attach();
     }
 
     protected override void DetachHooks()
     {
         BlockHooks.Detach();
+        MinecraftHooks.Detach();
     }
 }
