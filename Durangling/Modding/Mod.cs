@@ -3,11 +3,11 @@ using Windows.Win32;
 
 namespace Durangling.Modding;
 
-public abstract class ModBase
+public abstract class Mod
 {
     public readonly ModDetails Details;
 
-    protected ModBase(ModDetails details)
+    protected Mod(ModDetails details)
     {
         Details = details;
     }

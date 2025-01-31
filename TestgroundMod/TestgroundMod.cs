@@ -1,12 +1,13 @@
 using Durangling.Modding;
+using Minecraft.Client;
 using TestgroundMod.Hooks;
 
 namespace TestgroundMod;
 
-public class TestgroundMod : ModBase
+public class TestgroundMod : Mod
 {
     public TestgroundMod() 
-        : base(new ModDetails("Testground", new Version(0, 0, 1)))
+        : base(new ModDetails("testground", "Testground", new Version(0, 0, 1)))
     {
     }
 
