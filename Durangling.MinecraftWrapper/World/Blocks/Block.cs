@@ -3,11 +3,21 @@ using Minecraft.Interop;
 
 namespace Minecraft.World.Blocks;
 
-public unsafe class Block(Block.Native* handle) : NativeClassWrapper<Block.Native>(handle)
+public unsafe class Block(Block.Native* handle) : NativeClassWrapper<Block.Native>(handle), IDisposable
 {
     public bool IsDebugInformationVisible()
     {
         return NativeMethods.IsDebugInformationVisible(Handle) != 0;
+    }
+
+    public void SetLuminescence(int luminescence)
+    {
+        NativeMethods.SetLuminescence(Handle, luminescence);
+    }
+    
+    public void Dispose()
+    {
+        NativeMethods.Destructor(Handle);
     }
 
     public static float GetMiningSpeed(void* state, void* level, void* pos)
@@ -25,13 +35,17 @@ public unsafe class Block(Block.Native* handle) : NativeClassWrapper<Block.Nativ
 
     public static class NativeMethods
     {
+        public static readonly delegate* unmanaged[Thiscall]<Native*, void**> Destructor;
         public static readonly delegate* unmanaged[Thiscall]<Native*, byte> IsDebugInformationVisible;
         public static readonly delegate* unmanaged<void*, void*, void*, float> GetMiningSpeed;
+        public static readonly delegate* unmanaged[Thiscall]<Native*, int, void> SetLuminescence;
 
         static NativeMethods()
         {
-            IsDebugInformationVisible =(delegate* unmanaged[Thiscall]<Native*, byte>)HandleHelper.GetMainModuleHandle(Addresses.Block.IsDebugInformationVisible);
-            GetMiningSpeed = (delegate* unmanaged<void*, void*, void*, float>)HandleHelper.GetMainModuleHandle(Addresses.Block.GetMiningSpeed);
+            Destructor = (delegate* unmanaged[Thiscall]<Native*, void**>)HandleHelper.GetProcessHandle(Addresses.Block.Destructor);
+            IsDebugInformationVisible =(delegate* unmanaged[Thiscall]<Native*, byte>)HandleHelper.GetProcessHandle(Addresses.Block.IsDebugInformationVisible);
+            GetMiningSpeed = (delegate* unmanaged<void*, void*, void*, float>)HandleHelper.GetProcessHandle(Addresses.Block.GetMiningSpeed);
+            SetLuminescence = (delegate* unmanaged[Thiscall]<Native*, int, void>)HandleHelper.GetProcessHandle(Addresses.Block.SetLuminescence);
         }
     }
 

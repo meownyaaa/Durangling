@@ -1,28 +1,29 @@
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Durangling;
 using Minecraft.World.Blocks;
 
 namespace TestgroundMod.Hooks;
 
-using unsafe GetMiningSpeed = delegate* unmanaged<void*, void*, void*, float>;
+using unsafe SetLuminescence = delegate* unmanaged[Thiscall]<Block.Native*, int, void>;
 
 public static unsafe class BlockHooks
 {
-    private static GetMiningSpeed TrueGetMiningSpeed = Block.NativeMethods.GetMiningSpeed;
-
+    private static void* TrueSetLuminiscence = Block.NativeMethods.SetLuminescence;
+    
     public static void Attach()
     {
-        Detour.Attach(TrueGetMiningSpeed, (GetMiningSpeed)(&GetMiningSpeedHook));
+        // Detour.Attach(ref TrueSetLuminiscence, (SetLuminescence)(&SetLuminescenceHook));
     }
 
     public static void Detach()
     {
-        Detour.Detach(TrueGetMiningSpeed, (GetMiningSpeed)(&GetMiningSpeedHook));
+        // Detour.Detach(ref TrueSetLuminiscence, (SetLuminescence)(&SetLuminescenceHook));
     }
 
-    [UnmanagedCallersOnly]
-    private static float GetMiningSpeedHook(void* state, void* level, void* pos)
+    [UnmanagedCallersOnly(CallConvs = [typeof(CallConvThiscall)])]
+    private static void SetLuminescenceHook(Block.Native* self, int luminescence)
     {
-        return 0.0f;
+        ((SetLuminescence)TrueSetLuminiscence)(self, 0);
     }
 }
