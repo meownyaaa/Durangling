@@ -1,0 +1,95 @@
+name: Build Durangling
+
+on:
+  push:
+    branches: [ "master" ] # Gatilho para pushes na branch main
+  workflow_dispatch: # Permite acionar manualmente
+
+jobs:
+  build:
+    runs-on: windows-latest # Usa um runner Windows pois precisa do MSBuild e C++
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      # Add this line to ensure submodules (like Detours, potentially) are checked out
+      with:
+        submodules: recursive
+
+    - name: Setup .NET SDK 9.0
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '9.0.x' # Especifica a versão do .NET SDK
+
+    # Add this new step to restore NuGet packages
+    - name: Restore NuGet packages
+      run: dotnet restore Durangling.sln
+
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v2 # Configura o ambiente MSBuild/VS
+
+    # Add a dedicated step to build Detours explicitly
+    - name: Build Detours (x64 ReleaseMD)
+      run: msbuild Detours\vc\Detours.vcxproj /p:Configuration=ReleaseMD /p:Platform=x64
+      # Ensures Detours is built with the specific configuration required by README
+
+    # Add step to list potential Detours output directories for debugging
+    - name: List Detours Build Output Directory
+      shell: pwsh
+      run: |
+        Write-Host "Checking potential Detours output directories..."
+        Get-ChildItem -Path "Detours" -Recurse -Filter "detours.dll" -ErrorAction SilentlyContinue | Select-Object FullName, LastWriteTime
+        Write-Host "Listing Detours\vc\x64\ReleaseMD contents:"
+        Get-ChildItem -Path "Detours\vc\x64\ReleaseMD" -ErrorAction SilentlyContinue
+        Write-Host "Listing Detours\bin\x64\ReleaseMD contents:"
+        Get-ChildItem -Path "Detours\bin\x64\ReleaseMD" -ErrorAction SilentlyContinue
+
+    # Removed the separate 'msbuild Durangling.sln' step.
+    # 'dotnet publish' below will handle building the required C# projects.
+
+    - name: Publish Mod Project
+      # Substitua 'TestgroundMod' pelo nome real do seu projeto de mod se for diferente
+      # O caminho 'TestgroundMod\TestgroundMod.csproj' pode precisar ser ajustado
+      # Publishing with Release configuration. This will also build TestgroundMod and its C# dependencies.
+      # Added diagnostic verbosity to investigate missing DLLs
+      run: dotnet publish TestgroundMod\TestgroundMod.csproj --configuration Release --runtime win-x64 --output ./publish_output -v diag
+      # Publica o projeto do mod para a pasta 'publish_output'
+
+    # Add this step to manually copy missing dependency DLLs and Detours output
+    - name: Copy Dependencies and Detours Output to Publish Folder
+      shell: pwsh # Use PowerShell for Copy-Item
+      run: |
+        # Copy entire Durangling win-x64 output directory
+        $duranglingSourceDir = "Durangling\bin\Release\net9.0\win-x64"
+        if (Test-Path $duranglingSourceDir) {
+            Copy-Item -Path "$duranglingSourceDir\*" -Destination "./publish_output/" -Recurse -Force
+            Write-Host "Manually copied Durangling output directory from $duranglingSourceDir"
+        } else {
+            Write-Error "Durangling output directory not found at expected path: $duranglingSourceDir."
+            # Optionally exit here if this directory is critical: exit 1
+        }
+
+        # Copy MinecraftWrapper dependency
+        Copy-Item -Path "Durangling.MinecraftWrapper\bin\Release\net9.0\Durangling.MinecraftWrapper.dll" -Destination "./publish_output/"
+
+        # Define the expected path for the Detours output directory (!!! UPDATE THIS PATH BASED ON BUILD LOGS !!!)
+        $detoursSourceDir = "Detours\vc\x64\ReleaseMD"
+        $detoursDestination = "./publish_output/"
+
+        # Check if the source directory exists before copying
+        if (Test-Path $detoursSourceDir) {
+            # Copy the entire directory content recursively
+            Copy-Item -Path "$detoursSourceDir\*" -Destination $detoursDestination -Recurse -Force
+            Write-Host "Manually copied Detours output directory from $detoursSourceDir"
+        } else {
+            Write-Error "Detours output directory not found at expected path: $detoursSourceDir. Please check build logs and update the path in the workflow."
+            exit 1 # Fail the workflow step
+        }
+
+        Write-Host "Manually copied Durangling output, Durangling.MinecraftWrapper.dll, and Detours output to publish_output"
+
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: Durangling-Build # Nome do artefato para download
+        path: ./publish_output # Caminho para os arquivos que serão incluídos no artefato
